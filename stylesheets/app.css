@@ -140,14 +140,14 @@
 
  .desktop-nav li {
  	display: inline-block;
- 	margin: 1px 2px 0px;
+ 	margin: 1px 0px 0px;
  	height: 100%;
- 	padding: 3px 2px 0px;
- 	width: 100px;
+ 	padding: 3px 0px 0px;
+ 	width: 90px;
  	text-align: center;
  	border-radius: 3px;
  	font-family: 'Dosis', sans-serif;
-	font-size: 19px; /*-webkit-transition:  background 0.05s linear, color 0.05s linear;
+	font-size: 18px; /*-webkit-transition:  background 0.05s linear, color 0.05s linear;
 	*/
 	line-height: 1.25;
 }
