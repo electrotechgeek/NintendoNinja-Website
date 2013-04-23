@@ -24,16 +24,12 @@
 		<div class="header-row">
 			<div class="row">
 				<div class="four columns">
-					<a class="scroll hide-for-small" href="#top"><img src="images/head.png"></a>
+					<a class="scroll hide-for-small" href="#intro"><img src="images/head.png"></a>
 					<a id="nav-trigger" class="show-for-small" href="#"><img class="nav-menu-btn" src="images/icons/menu.png"><img src="images/head.png"></a>
 				</div>
 				<div class="eight columns hide-for-small desktop-nav">
 					<ul data-magellan-expedition>
-						<li style="display:none;" data-magellan-arrival='top'></li>
-						<a class="scroll" href="#intro">
-						<li data-magellan-arrival='intro'>
-							Intro
-						</li></a>
+						<li style="display:none;" data-magellan-arrival='intro'></li>
 						<a class="scroll" href="#overview">
 						<li data-magellan-arrival='overview'>
 							Overview
@@ -50,23 +46,15 @@
 						<li data-magellan-arrival='conclusions'>
 							Conclusions
 						</li></a>
-						<a class="scroll" href="#conclusions">
-						<li data-magellan-arrival='conclusions'>
-							Appendices
-						</li></a>
-						<a class="scroll" href="#conclusions">
-						<li data-magellan-arrival='conclusions'>
-							References
+						<a class="scroll" href="#appendix">
+						<li data-magellan-arrival='appendix'>
+							Appendix
 						</li></a>
 					</ul>
 				</div>
 				<div id="mobile-nav" class="show-for-small">
 					<h3>Menu</h3><a id="nav-close-trigger" href="#"><img class="nav-menu-btn" src="images/icons/close.png"></a>
 					<ul data-magellan-expedition>
-						<a class="mobile" href="#top">
-						<li data-magellan-arrival='top'>
-							Home
-						</li></a>
 						<a class="mobile" href="#intro">
 						<li data-magellan-arrival='intro'>
 							Intro
@@ -87,20 +75,16 @@
 						<li data-magellan-arrival='conclusions'>
 							Conclusions
 						</li></a>
-						<a class="mobile" href="#conclusions">
-						<li data-magellan-arrival='conclusions'>
-							Appendices
-						</li></a>
-						<a class="mobile" href="#conclusions">
-						<li data-magellan-arrival='conclusions'>
-							References
+						<a class="mobile" href="#appendix">
+						<li data-magellan-arrival='appendix'>
+							Appendix
 						</li></a>
 					</ul>
 				</div>
 			</div>
 		</div>
 
-		<div id="top" class="row">
+		<div id="intro" class="row">
 			<div class="twelve columns main-wrapper" style="position:relative;">
 
 				<!-- Background -->
@@ -110,8 +94,8 @@
 					</div>
 				</div>
 
-				<!-- Opening Blurb -->
-				<div class="row" data-magellan-destination='top'>
+				<!-- Intro Blurb -->
+				<div class="row" data-magellan-destination='intro'>
 					<div class="eight columns offset-by-four intro-blurb">
 						<h1>Pop in and start up!</h1>
 						<p>
@@ -126,10 +110,10 @@
 					</div>
 				</div>
 
-				<!-- Intro Section -->
-				<div class="nav-spacer" id="intro" data-magellan-destination='intro'>
+				<!-- Overview Section -->
+				<div class="nav-spacer" id="overview" data-magellan-destination='overview'>
 					<div class="row">
-						<h1>Introduction</h1>
+						<h1>Overview</h1>
 						<hr />
 						<div class="six columns">
 							<img class="radius" src="images/visit.jpg">
@@ -150,10 +134,10 @@
 					</div>
 				</div>
 
-				<!-- Overview Section -->
-				<div class="nav-spacer" id="overview" data-magellan-destination='overview'>
+				<!-- Design Section -->
+				<div class="nav-spacer" id="design" data-magellan-destination='design'>
 					<div class="row">
-						<h1>Overview</h1>
+						<h1>Design</h1>
 						<hr />
 						<div class="six columns">
 							<h3>Recent</h3>
@@ -199,10 +183,10 @@
 					</div>
 				</div>
 
-				<!-- Design Section -->
-				<div class="nav-spacer" id="design" data-magellan-destination='design'>
+				<!-- results Section -->
+				<div class="nav-spacer" id="results" data-magellan-destination='results'>
 					<div class="row">
-						<h1>Our Story</h1>
+						<h1>Results</h1>
 						<hr />
 						<div class="six columns">
 							<p>
@@ -246,11 +230,11 @@
 					</div>
 				</div>
 
-				<!-- Results Section -->
-				<div class="nav-spacer" id="results" data-magellan-destination='results'>
+				<!-- Conclusions Section -->
+				<div class="nav-spacer" id="conclusions" data-magellan-destination='conclusions'>
 					<div class="row">
 						<div class="twelve columns">
-							<h1>Cool People</h1>
+							<h1>Conclusions</h1>
 							<hr />
 							<h3>Steering Committee</h3>
 							<ul class="people-list">
@@ -427,10 +411,10 @@
 					</div>
 				</div>
 
-				<!-- Conclusions Section -->
+				<!-- Appendix Section -->
 				<div class="nav-spacer" id="conclusions" data-magellan-destination='conclusions'>
 					<div class="row">
-						<h1>Get Involved</h1>
+						<h1>Appendices and References</h1>
 						<hr />
 						<div class="six columns">
 							<h3>Contact Us</h3>
