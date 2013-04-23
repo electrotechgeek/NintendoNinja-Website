@@ -135,7 +135,7 @@
  .desktop-nav ul {
  	float: right;
  	height: 27px;
- 	margin: 0px;
+ 	margin-top: 20px;
  }
 
  .desktop-nav li {
@@ -245,7 +245,7 @@
  -----------------------------------------*/
  .main-wrapper {
  	position: relative;
- 	margin-top: 15px;
+ 	margin-top: 60px;
  	padding-top: 30px;
  }
 
