@@ -6,11 +6,11 @@
  :: Header
  :: Background
  :: Sections
- ----Visit
- ----Events
- ----About
- ----Partners
- ----Contribute
+ ----Intro
+ ----Overview
+ ----Design
+ ----Results
+ ----Conclusions
  :: Footer
  :: Modals
  ----Livestream
@@ -322,7 +322,7 @@
 
  }
 
- /*********** Visit ***********/
+ /*********** Intro ***********/
  .visit-quote {
  	margin: 0px 0px 10px;
  }
@@ -336,7 +336,7 @@
  	height: 100px;
  }
 
- /*********** Events ***********/
+ /*********** Overview ***********/
  .panel {
  	border-radius: 3px;
  	padding: 25px;
@@ -389,13 +389,13 @@
  	max-width: 150px;
  }
 
- /*********** About ***********/
- #about img {
+ /*********** Design ***********/
+ #design img {
  	border-radius: 3px;
  }
 
- /*********** Partners ***********/
- #partners img {
+ /*********** Results ***********/
+ #results img {
  	border-radius: 3px;
  }
 
@@ -467,7 +467,7 @@
 
  }
 
- /*********** Contribute ***********/
+ /*********** Conclusions ***********/
  #ctc-fm-message {
  	height: 140px;
  }

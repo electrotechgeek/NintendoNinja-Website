@@ -1,10 +1,8 @@
-# POPSHOP Website
+# NintendoNinja Website
 
-Live version up at [popright.in](http://popright.in).
+Live version up at [nintendoninja.com](http://nintendoninja.com).
 
-Created by students at Cornell University in Ithaca, NY.
-
-You can also find us on [Facebook](https://www.facebook.com/poprightin) and [Twitter](https://twitter.com/poprightin).
+This has been forked from the excellent [POPSHOP website](http://popright.in) developed by [Eric Morris](https://github.com/elm232/POPSHOP-website)
 
 # Common Tasks
 
@@ -43,10 +41,6 @@ If you're looking for the typical `$(document).ready()` at the bottom of `index.
 
 Be sure to change the names of images that are being swapped out due to caching being enabled by the .htaccess file.
 
-## Anything Else
-
-Feel free to email me at elm232 'at' (standard Cornell email scheme) or message me on Github if you have any questions.
-
 # Components
 
 The POPSHOP website is build using several open source components:
@@ -58,7 +52,7 @@ The POPSHOP website is build using several open source components:
 *   AJAX preloader image from [Preloaders.net](http://preloaders.net).
 
 # MIT Open Source License
-Copyright (c) 2013 POPSHOP
+Copyright (c) 2013 NESNINJA
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
