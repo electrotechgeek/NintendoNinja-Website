@@ -13,7 +13,7 @@
  ----Conclusions
  :: Footer
  :: Modals
- ----Livestream
+ ----Video
  ----Bio
  ----Join
  :: Lightbox
@@ -46,6 +46,7 @@
 
  h1, h2, h3, h4, h5, h6 {
  	font-family: 'Dosis', sans-serif;
+	padding-top: 25px;
  }
 
  body, div, dl, dt, dd, ul, ol, li, pre, p, blockquote, th, td {
@@ -309,12 +310,6 @@
  	margin-bottom: 15px;
  }
 
- .listserv-btn {
- 	margin: 25px auto 10px;
- 	width: 50%;
- 	text-align: center;
- }
-
  @media only screen and (max-width: 767px) {
  	.intro-blurb {
  		background: rgba(255,255,255,0.5);
@@ -327,11 +322,11 @@
  	margin: 0px 0px 10px;
  }
 
- .webcam-btn {
+ .video-btn {
  	text-align: center;
  }
 
- webcam-btm img {
+ video-btm img {
  	display: block;
  	height: 100px;
  }
@@ -510,234 +505,3 @@
  	margin: 5px 0px;
  }
 
- .social-media-links img {
- 	display: inline-block;
- 	height: 16px;
- 	margin: 2px 0px -2px;
- }
-
-/* -----------------------------------------
- Modals
- -----------------------------------------*/
- .reveal-modal {
- 	border-radius: 3px;
- }
-
- /*********** Livestream ***********/
-
- .webcam-fallback {
- 	margin: 4% 10%;
- 	width: 80%;
- }
-
- .webcam-image {
- 	position: absolute;
- 	top: 25px;
- 	left: 50%;
- 	width: 90%;
- 	margin-left: -45%;
- 	z-index: 10;
- }
-
- /*********** Bio ***********/
- #bio-modal {
- 	width: 60%;
- 	margin-left: -30%;
- }
-
- @media only screen and (max-width: 767px) {
- 	#bio-modal {
- 		width: 90%;
- 		margin-left: -45%;
- 	}
-
- }
-
- #bio-links {
- 	width: auto;
- 	list-style: none;
- 	position: relative;
- 	float: left;
- 	display: block;
- 	left: 50%;
- }
-
- #bio-links li {
- 	display: inline-block;
- 	text-align: center;
- 	padding: 5px;
- 	margin: 0px 5px;
- 	position: relative;
- 	float: left;
- 	display: block;
- 	right: 50%;
- }
-
- /*********** Join ***********/
-/* -----------------------------------------
- Lightbox
- -----------------------------------------*/
- #lightboxOverlay {
- 	position: absolute;
- 	top: 0;
- 	left: 0;
- 	z-index: 9999;
- 	background-color: black;
- 	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
- 	filter: alpha(opacity=85);
- 	opacity: 0.85;
- 	display: none;
- }
-
- #lightbox {
- 	position: absolute;
- 	left: 0;
- 	width: 100%;
- 	z-index: 10000;
- 	text-align: center;
- 	line-height: 0;
- 	font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
- 	font-weight: normal;
- }
-
- #lightbox img {
- 	width: auto;
- 	height: auto;
- 	max-width: 100%;
- }
-
- #lightbox a img {
- 	border: none;
- }
-
- .lb-outerContainer {
- 	position: relative;
- 	background-color: white;
- 	*zoom: 1;
- 	width: 250px;
- 	height: 250px;
- 	margin: 0 auto;
- 	border-radius: 4px;
- }
-
- .lb-outerContainer:after {
- 	content: "";
- 	display: table;
- 	clear: both;
- }
-
- .lb-container {
- 	padding: 10px;
- }
-
- .lb-loader {
- 	position: absolute;
- 	top: 40%;
- 	left: 0%;
- 	height: 25%;
- 	width: 100%;
- 	text-align: center;
- 	line-height: 0;
- }
-
- .lb-nav {
- 	position: absolute;
- 	top: 0;
- 	left: 0;
- 	height: 100%;
- 	width: 100%;
- 	z-index: 10;
- }
-
- .lb-container > .nav {
- 	left: 0;
- }
-
- .lb-nav a {
- 	outline: none;
- }
-
- .lb-prev, .lb-next {
- 	width: 49%;
- 	height: 100%;
- 	background-image: url("data: image/lightbox/gif;
- 		base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"); /* Trick IE into showing hover */
- 	display: block;
- }
-
- .lb-prev {
- 	left: 0;
- 	float: left;
- }
-
- .lb-next {
- 	right: 0;
- 	float: right;
- }
-
- .lb-prev:hover {
- 	background: url(../images/lightbox/prev.png) left 48% no-repeat;
- }
-
- .lb-next:hover {
- 	background: url(../images/lightbox/next.png) right 48% no-repeat;
- }
-
- .lb-dataContainer {
- 	margin: 0 auto;
- 	padding-top: 5px;
- 	*zoom: 1;
- 	width: 100%;
- 	border-radius-bottomleft: 4px;
- 	-webkit-border-bottom-left-radius: 4px;
- 	-ms-border-bottom-left-radius: 4px;
- 	-o-border-bottom-left-radius: 4px;
- 	border-bottom-left-radius: 4px;
- 	border-radius-bottomright: 4px;
- 	-webkit-border-bottom-right-radius: 4px;
- 	-ms-border-bottom-right-radius: 4px;
- 	-o-border-bottom-right-radius: 4px;
- 	border-bottom-right-radius: 4px;
- }
-
- .lb-dataContainer:after {
- 	content: "";
- 	display: table;
- 	clear: both;
- }
-
- .lb-data {
- 	padding: 0 10px;
- 	color: #bbbbbb;
- }
-
- .lb-data .lb-details {
- 	width: 85%;
- 	float: left;
- 	text-align: left;
- 	line-height: 1.1em;
- }
-
- .lb-data .lb-caption {
- 	font-size: 13px;
- 	font-weight: bold;
- 	line-height: 1em;
- }
-
- .lb-data .lb-number {
- 	display: block;
- 	clear: left;
- 	padding-bottom: 1em;
- 	font-size: 11px;
- }
-
- .lb-data .lb-close {
- 	width: 35px;
- 	float: right;
- 	padding-bottom: 0.7em;
- 	outline: none;
- }
-
- .lb-data .lb-close:hover {
- 	cursor: pointer;
- }

@@ -4,52 +4,13 @@ Live version up at [nintendoninja.com](http://nintendoninja.com).
 
 This has been forked from the excellent [POPSHOP website](http://popright.in) developed by [Eric Morris](https://github.com/elm232/POPSHOP-website)
 
-# Common Tasks
-
-## Adding a Steering Committee Member or Alumni
-
-Add the person's photo to the `images/people` folder with the naming pattern {netID}.jpg, name to the "partners" section of `index.html` and add their biography information to the [Google Spreadsheet](https://docs.google.com/spreadsheet/ccc?key=0AnPxd5MoDKC8dEhETDdWcXh5Z0tPWkhMV1UwME9jc1E).
-
-## Making Colored Things
-
-The stripes in the header, footer and background are:
-
-*   Green: 
-    *   RGB: 000 255 001
-    *   Hex: #00ff01
-*   Pink:
-    *   RGB: 255 000 114
-    *   Hex: #ff0072
-*   Blue: 
-    *   RGB: 002 172 255
-    *   Hex: #02acff
-
-The red in the links and buttons is standard Cornell Red (Carnellian): 
-
-*   RGB: 179 027 027
-*   Hex: #b31b1b
-
-## Editing CSS
-
-Remember to change the query variable on the end of the CSS call in `index.html` in order to break the cache.
-
-## Editing Javascript
-
-If you're looking for the typical `$(document).ready()` at the bottom of `index.html`, you're in for a surprise.  Add jQuery in `app.js`, then compress it and and append to `app.min.js` using a [javascript compressor](http://closure-compiler.appspot.com/home).  Remember to update the query variable on the script tag in `index.html` to break the cache.
-
-## Replacing Images
-
-Be sure to change the names of images that are being swapped out due to caching being enabled by the .htaccess file.
-
 # Components
 
-The POPSHOP website is build using several open source components:
+The Nintendo Ninja website is build using several open source components:
 
 *   A trimmed down copy of [Foundation 3.2](http://foundation.zurb.com) by [ZURB](http://zurb.com), provided under an [MIT License](https://github.com/zurb/foundation#mit-open-source-license).
 *   Icons by [Glyphicons](http://glyphicons.com/), provided under a [CC BY-ND 3.0 License](http://creativecommons.org/licenses/by-nd/3.0/).
-*	Google Spreadsheet syncing using [Tabletop.js](https://github.com/jsoma/tabletop).
-*   Placeholder images by [PLACEHOLD.IT](http://placehold.it/).
-*   AJAX preloader image from [Preloaders.net](http://preloaders.net).
+*   [PrettyPhoto LightBox Clone](http://www.no-margin-for-errors.com/projects/prettyphoto-jquery-lightbox-clone/)
 
 # MIT Open Source License
 Copyright (c) 2013 NESNINJA

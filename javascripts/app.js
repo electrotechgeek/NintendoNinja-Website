@@ -61,17 +61,8 @@
 		$('a.mobile').click(function(e) {
 			$('#mobile-nav').removeClass('active');
 		});
-		$('.launch-join-modal').click(function(e) {
-			e.preventDefault();
-			$('#join-modal').reveal();
-		});
-		$('.bio-link').click(function(e) {
-			e.preventDefault();
-			$('#bio-modal').reveal({
-				//Calls bios.js
-				open : writeBio($(this).attr('data-bio'))
-			});
-		});
+		
+		
 		$('a.scroll').click(function(e) {
 			e.preventDefault();
 			$('.reveal-modal').trigger('reveal:close');
@@ -80,96 +71,11 @@
 				scrollTop : $(target).offset().top
 			}, 750);
 		});
-		$('a.livestream-trigger').click(function(e) {
+		$('a.video-trigger').click(function(e) {
 			e.preventDefault();
-			$('#livestream-modal').reveal({
-				//Calls webcam.js
-				open : makeLivestream('livestream-container')
-			});
+			$('#video-modal').reveal();
 		});
-		$('#contact-submit').click(function(e) {
-			e.preventDefault();
-			var submit = true;
-			//Checks name isn't empty
-			if ($('#ctc-fm-name').val() == '') {
-				$('#ctc-fm-name').addClass('error');
-				$('#ctc-fm-name-lbl').addClass('error');
-				submit = false;
-			} else {
-				$('#ctc-fm-name').removeClass('error');
-				$('#ctc-fm-name-lbl').removeClass('error');
-			}
-			//Checks email is a real email
-			if (!email_check.test($('#ctc-fm-email').val())) {
-				$('#ctc-fm-email').addClass('error');
-				$('#ctc-fm-email-lbl').addClass('error');
-				submit = false;
-			} else {
-				$('#ctc-fm-email').removeClass('error');
-				$('#ctc-fm-email-lbl').removeClass('error');
-			}
-			//Checks message isn't empty
-			if ($('#ctc-fm-message').val() == '') {
-				$('#ctc-fm-message').addClass('error');
-				$('#ctc-fm-message-lbl').addClass('error');
-				submit = false;
-			} else {
-				$('#ctc-fm-message').removeClass('error');
-				$('#ctc-fm-message-lbl').removeClass('error');
-			}
-			//Submit form
-			var data_string = 'type=message' + '&name= ' + $('#ctc-fm-name').val() + '&email=' + $('#ctc-fm-email').val() + '&message=' + $('#ctc-fm-message').val() + '&join=' + $('#ctc-fm-join').val();
-			if (submit) {
-				$.ajax({
-					type : "POST",
-					url : "form.php",
-					data : data_string,
-					beforeSend : function() {
-						$('#ctc-fm-msg').html('<img src="images/ajax-loader.gif">');
-					},
-					success : function(data) {
-						if (data.success) {
-							$('#ctc-fm-msg').html("Message sent. :) ");
-						} else {
-							$('#ctc-fm-msg').html('' + data.error);
-						}
-					}
-				});
-			}
-		});
-		$('#list-fm-submit').click(function(e) {
-			e.preventDefault();
-			var email = $('#list-fm-email').val();
-			var submit = true;
-			//Checks email is a real email
-			if (!email_check.test(email)) {
-				$('#list-fm-email').addClass('error');
-				$('#list-fm-email-lbl').addClass('error');
-				submit = false;
-			} else {
-				$('#list-fm-email').removeClass('error');
-				$('#list-fm-email-lbl').removeClass('error');
-			}
-			//Submit form
-			var data_string = 'type=join' + '&email=' + email;
-			if (submit) {
-				$.ajax({
-					type : "POST",
-					url : "form.php",
-					data : data_string,
-					beforeSend : function() {
-						$('#list-fm-msg').html('<img src="images/ajax-loader.gif">');
-					},
-					success : function(data) {
-						if (data.success) {
-							$('#list-fm-msg').html(data.email + " successfully joined the listserv. Prepare to be notified about some really cool events!");
-						} else {
-							$('#list-fm-msg').html('' + data.error);
-						}
-					}
-				});
-			}
-		});
+		
 	});
 
 })(jQuery, this);
