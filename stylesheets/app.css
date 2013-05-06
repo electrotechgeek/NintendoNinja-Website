@@ -61,6 +61,12 @@
  h1.right, h2.right, h3.right, h4.right, h5.right, h6.right {
  	float: right;
  }
+ 
+ h3.special {
+	padding-top: 0px;
+	margin-top: 0px;
+	margin-bottom: 5px; 
+ }
 
  a, a:visited {
  	color: #b31b1b;
