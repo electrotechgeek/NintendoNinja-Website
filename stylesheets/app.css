@@ -126,6 +126,10 @@
 	text-align:center;
  }
  
+ ol {
+	margin-left: 50px; 
+ }
+ 
  /*Margins */
  .indent{
 	 margin-left:25px;
