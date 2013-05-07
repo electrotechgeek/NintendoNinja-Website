@@ -126,6 +126,11 @@
 	text-align:center;
  }
  
+ div.photo {
+	 float:left;
+	 padding-right: 20px;
+ }
+ 
  ol {
 	margin-left: 50px; 
  }
