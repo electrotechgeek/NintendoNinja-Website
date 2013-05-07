@@ -167,6 +167,10 @@
                         <h2>Program/Hardware Design</h2>
                         	<div class="indent">
                             <h3>External Hardware</h3>
+                            	<p>
+                                	In order to interface with the NES, it is necessary for the Altera DE2 to emulate an NES Controller.  We also found that it was helpful to augment the board with a remote LED display that we could mount next to the monitor.  The LEDs light up various colors to indicate when a pipe,goomba, or brick is causing the Mario AI to jump.  The following schematic shows both of these pieces of additional hardware, and is references in the next two sub-sections:</p>
+                                <div class="center"><a href="schematic/NintendoNinjaSchematic.png" rel="prettyPhoto"><img src="schematic/NintendoNinjaSchematicThumb.png" alt="System Hardware Schematic"></a></div>
+                                <p class="caption">Schematic of Hardware Components (Click to Enlarge)</p>
                             	<div class="indent">
                             	<h4>GPIO to NES controller</h4>
                                 	<p>stuff here.</p>
@@ -195,12 +199,19 @@
 						<h1>Results</h1>
 						<hr />
 						<div class="six columns">
-							<p>
+                        	<h2>Execution</h2>
+                        		<p>We were able to implement a simple AI to play World 1-1 of Super Mario Bros. for the NES. The AI is able to play in real time by plugging in a custom controller-to-GPIO breakout into one of the controller ports of the NES. The AI can successfully complete the level approximately QQ% of the time.</p>
+								<p>Since the NES does not have a standard NTSC signal, the VGA controller produces a constantly scrolling image. The FPGA is still able to play the game by only looking at the horizontal position of the obstacles and enemies detected and by calculating some of the vertical information by searching for the location of the empty black bar of space that appears between frames.  This also means that the FPGA only knows the image information that it is capable of displaying. When enemies or obstacles are not being displayed on the VGA, there are not visible to the AI, making the game challenging to play.</p>
+								<p>The general strategy of the AI is to jump over pipes, stomp on goombas, and jump over gaps in the ground.  The FPGA concurrently searches for the goombas, pipes and gaps by comparing a kernel of a unique area on these sprites to an 11x640 buffer that is constantly being updated as a new pixel is written to the VGA display. When the number of matching pixels exceeds a certain threshold and it is in the portion of the screen to the right of center, that obstacle is determined to be present. Once a frame, all of these signals are polled and Mario will jump to avoid the obstacle, remaining in the air for a length of time related to which obstacle was sensed. Some obstacles have priority over others to avoid conflicts that could cause Mario to jump into an enemy or trap.</p>
+								<p>Where the hardware detects matches between the obstacle kernels and the screen, the matching pixels are displayed on the screen: green pixels appear where pipes are sensed, yellow for the edges of bricks and red for the Goomba and Koopa enemies. Due to the 4 frame delay introduced to give the FPGA enough time to compute these matches, these appear as streaks on the screen. This coloring can be toggled off using the switches on the FPGA. Since there is no vertical synchronization and we are writing to the screen multiple times per frame, this will occasionally cause the NTSC decoder to lose Chroma/Luma synchronization, causing the colors on the screen to invert. This can be corrected by manually resetting the decoder by pressing KEY[0] or toggling SW[].</p>
+
+							<h2>Accuracy</h2>
+								<p>With this system, it is also possible to use the AI as a second player in the 2 player version of the game, but the AI has only been trained on the enemies and obstacles of World 1-1.</p>
+
+							<h2>Usability</h2>
+								<p>
 								This is neat.
-							</p>
-							<p>
-								OMG more neat stuff.  There are pretty pictures to the right.
-							</p>
+								</p>
 						</div>
 						<div class="six columns">
 							<ul class="block-grid three-up">

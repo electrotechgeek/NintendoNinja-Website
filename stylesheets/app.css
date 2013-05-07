@@ -116,6 +116,16 @@
  	height: 0;
  }
  
+ p.caption {
+	 text-align:center;
+	 font-size:small;
+	 font-style:italic;
+ }
+ 
+ div.center {
+	text-align:center;
+ }
+ 
  /*Margins */
  .indent{
 	 margin-left:25px;
