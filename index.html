@@ -119,11 +119,10 @@
 								<div class="clearfix"></div>
 							</div>
 							<p>
-								Super Mario is possibly one of the world's best-known video games. It's been analyzed in detail, beaten millions of times, and it's super fun.  Nintendo Ninja is an FPGA-Based AI that uses video input from an NES console to automatically play the game. All of the video analysis and AI techniques are performed using Verilog-compiled hardware running on an Altera DE2 Cyclone board. The project combines NTSC decoding, VGA output, kernel pattern matching, real-time image manipulation, and NES controller emulation. Below, we explain the <a href="#design" class="scroll">system design</a>, <a href="#results" class="scroll">our results</a>, <a href="#conclusions" class="scroll">our conclusions</a>, and <a href="#appendix" class="scroll">useful appendices</a>.  The following video shows a demo of the system working.
+								We built an FPGA-based AI that uses video input from an NES console to automatically play the game Super Mario Bros. All of the video analysis and AI techniques are performed using Verilog-compiled hardware running on an Altera DE2 Cyclone board. The project combines NTSC decoding, VGA output, kernel-based pattern matching, real-time image manipulation, and NES controller emulation. Below, we explain the <a href="#design" class="scroll">system design</a>, <a href="#results" class="scroll">our results</a>, <a href="#conclusions" class="scroll">our conclusions</a>, and <a href="#appendix" class="scroll">useful appendices</a>.  The following video shows a demo of the system working.
 							</p>
 							<p class="video-btn">
-                                <a href="http://www.youtube.com/watch?v=QH2-TGUlwu4" rel="prettyPhoto" title="This video shows the Nintendo Ninja in Action." class="button radius"><img style="height:10px;" src="images/icons/video.png" alt="Nintendo Ninja Video Demo">&nbsp;&nbsp;Watch the Video!</a>
-								<!--<a href="#" class="button radius video-trigger"><img style="height:10px;" src="images/icons/video.png">&nbsp;&nbsp;Watch the Video!</a>-->
+                                <a href="http://www.youtube.com/watch?v=mVKlyUY9M6Y" rel="prettyPhoto" title="This video shows the Nintendo Ninja in Action." class="button radius"><img style="height:10px;" src="images/icons/video.png" alt="Nintendo Ninja Video Demo">&nbsp;&nbsp;Watch the Video!</a>
 							</p>
 						</div>
 					</div>
@@ -137,44 +136,42 @@
                         <h2>High Level Design</h2>
                         	<div class="indent">
                         	<h3>Rationale and Idea Origin</h3>
-                            	<p>
-                                	Developing an AI to play super mario offers a challenging problem that is not impossible to accomplish through mere observation of the video output. Trying to solve a more modern game (such as Super Mario 64) would essentially be impossible without directly reading the game's memory. We approached the idea believing that Super Mario Bros. is a fairly deterministic environment with side-scrolling that makes it straight-forward to do edge and obstacle detection. Interfacing with the NES is also fairly straighforward, as the controller is nothing more than some buttons in an a parallel-to-serial shift register integrated circuit. Importantly, we believed that the game would provide a challenging problem with fairly large array of possible solutions.
-                                </p>
+                            	<p>Developing an AI to play Super Mario Bros. offers a challenging problem that is possible (though difficult) to accomplish through mere observation of the video output. Unlike similar AIs for Mario-like games (see the <a href="http://www.marioai.org/" title="Mario AI Chapionship Site" target="_blank">Mario AI Championship</a> and <a href="http://www.cs.cmu.edu/~tom7/mario/" title="Lernfun/PlayFun Site" target="_blank">learnfun/playfun</a> by Tom Murphy), we do not have direct access to the game’s memory due to our choice of using an original, unmodified NES console. This means we lack basic information like Mario’s location, the map, the location of enemies, etc. All information used in the AI is derived visually, the same way a human would play the game.</p>
+<p>We approached the idea believing that Super Mario Bros. is a fairly deterministic environment with side-scrolling that makes it straightforward to do edge and obstacle detection. Interfacing with the NES is also fairly straightforward, as the controller is nothing more than some buttons and an a parallel-to-serial shift register integrated circuit. Importantly, we believed that the game would provide a challenging problem with a fairly large array of possible solutions.</p>
                             <h3>Logical Structure</h3>
-                            	<p>
-                                	At a high level, our AI works by reading the each video frame into a buffer and analyzing it against a set of precomputed kernels and colors to look for areas of interest. The program then uses a kernel and color matching algorithm with an error threshold to attempt to identify the location of enemies, walls, mario, and warp pipes, while keeping false positives to a minimum.  With this information, the program makes decisions about when to make Mario jump and run so that he avoids enemies and obstacles. We chose to define "success" as Mario making it through the first level, alive, as quickly as possible.  Mario makes no attempts to kill enemies, obtain coins, or get powerups, though he frequently does through dumb luck.
-                            	</p>
-                        	<h3>Tradeoffs</h3>
-                            	<div class="indent">
-                                <h4>NIOS II vs Hardware</h4>
+                            	<p>At a high level, our AI works by reading the each video frame into a buffer and analyzing it against a set of precomputed kernels and colors to look for areas of interest. The program then uses a kernel and color matching algorithm with an error threshold to attempt to identify the location of enemies, walls, and pipes, while keeping false positives to a minimum. With this information, the program makes decisions about when to make Mario jump and run so that he avoids enemies and obstacles. We chose to define "success" as Mario making it through the first level, alive, as quickly as possible. Mario makes no attempts to obtain coins or get powerups, though he frequently does so due to dumb luck.</p>
+                            <h3>Algorithm Design</h3>
+                            <div class="photo"><img src="images/stairs.png" alt="Stairs"><p class="caption">Stairs at the end of World 1-1.</p></div>
+                            	<p>Mario’s strategy is fairly simple: Walk to the right, and jump to avoid danger and/or obstacles. If an enemy is detected immediately to the right of Mario, he does a small jump (timed well for jumping on/over enemies, and bouncing on their heads for groups of enemies). If multiple enemies are detected, run faster before jumping (to try to clear a large group, and to decrease the chance of getting caught in between two enemies without time to jump away). If a pipe or a pit of doom is detected, Mario does a large jump to try to clear the pipe or the pit.</p><p>Mario also detects the blocks comprising the squares at the end of the level and jumps accordingly. Sadly, he makes no attempt to earn 5000 points when jumping on the flagpole. He also is unaware of the warp pipe that allows you to skip most of the level.</p>
+                            <div class="clearfix"></div>
+                            <div class="photo"><img src="images/trap.png" alt="trap"><p class="caption">Obvious Trap in World 1-2.</p></div>
+                            <p>To simplify some of our computations, we assume Mario is in the center of the screen, which is true since Mario never turns around or stops in our algorithm. This approach is sufficient to solve the relatively basic environment of world 1-1, but would obviously fail in more challenging environments like world 1-2. (We also didn’t develop the kernels necessary to detect the underground enemies and bricks, so our AI frequently beats world 1-1 only to repeatedly die by slamming into the first Goomba in world 1-2.)</p>
+                            <div class="clearfix"></div>
+                            <div class="photo"><img src="images/fail.png" alt="fail."><p class="caption">Credit: u/cubosh on Reddit</p></div>
+                            <p>Configuring the timing of Mario’s jumps and the thresholds for enemy/obstacle detection was quite a challenge, in part because measuring success is difficult and time-consuming. Sometimes Mario would consistently make it through most of the level before dying on an arrangement of four Goombas towards the end of the level. A slight tweak to the Goomba detection parameter might cause him to get past that part, at the consequence of consistently dying on the first Goomba. In other words, we had difficulty choosing parameters without <a href="http://en.wikipedia.org/wiki/Overfitting" title="Overfitting on Wikipedia" target="_blank">overfitting</a> to a particular obstacle or situation.</p>
+								<div class="clearfix"></div>
+                                <h3>NTSC and VGA Standards</h3>
                                     <p>
-                                        We chose to implement this project using custom hardware rather than instantiating a NIOS II processor on the FPGA and then programming in C. While coding in C is simpler, the VGA controllers typically used with the NIOS are vastly different from the custom controller we used to display the NTSC signal from the NES. Using custom hardware also allows us to access the VGA buffer directly, allowing us to read and write to the screen at the same time. This allows for greater computation parallelization so that we can simultaneously detect multiple types of obstacles at once.     
-                                    </p>
-                                <h4>Screen Scolling Correction</h4>
-                                <div class="photo"><img src="images/scrolling.gif" alt="Screen Scrolling"><p class="caption">Screen Scrolling</p></div>
+                                        The NES produces a 240p NTSC signal which we convert to VGA for display on an attached monitor. However, we encountered a problem where the video produced by the NES was converted in a way that caused a constant vertical scrolling, which was not present when testing the same hardware with other NTSC video sources. After much experimentation and debugging, we believe that the problem is caused by the fact that the ADV7181B video decoder on-board the DE2 expects 262.5 scanlines in normal NTSC-M mode, while the <a href ="http://wiki.nesdev.com/w/index.php/PPU" title="PPU on the NES Wiki" target="_blank">NES’ PPU, or Picture Processing Unit</a>, produces only 262. The ADV7181B handles extraction of sync pulses using a predictive algorithm, which claims to be correct for improper/noisy sync generation but is unable to properly handle the PPU’s method of video generation. This is a problem that could likely be corrected using a timebase corrector or other high-quality video processing equipment, but those options were outside the amount of money we were willing to spend. We did experiment with cheap external NTSC-to-VGA converters, but the resulting color distortion sacrificed information we needed to reliably detect obstacles and enemies. We also spent a lot of time trying different configurations of the ADV7181B (which has many different settings that can be accessed using I2C) and modifying the DE2_TV module provided to use by Terasic. While this problem may be solvable (or at least correctable), we would encourage future 5760 groups to consider this carefully before embarking on another retro-video-game-console-related project.</p>
+                                         <div class="photo"><img src="images/scrolling.gif" alt="Screen Scrolling"><p class="caption">Screen Scrolling</p></div>
+                                        <p>Despite this problem, we chose to simply have our system deal with a constantly scrolling video source. We are fortunate that Super Mario Bros. is an entirely horizontally-scrolling game, so we primarily use information about the location of objects in the X direction, and can extract some information in the Y direction by comparing the location of objects to the location of the black horizontal bar that marks the end of the frame. Still, the rollover is a problem because for a brief period of time, some pixels are not visible on the screen. Since our system only uses the video on the screen, and because the exact timing of the rollover depends on when exactly the game is started, this creates a headache and some slightly random behavior, but is not an insurmountable problem.</p><p>Another issue with reading video from the NES is that the PPU utilizes a <a href="http://wiki.nesdev.com/w/index.php/NTSC_video" title="Shortcut Modulation on the NES Wiki" target="_blank">“shortcut” method of modulation</a>, causing vertical lines to appear slightly jagged and flicker. The conversion from 256x240 to 640x480 also results in different scale factors in the X and Y directions, which makes developing kernels for pattern recognition difficult as well.</p>
+                                        <div class="clearfix"></div>
+                                <h3>NIOS II vs Hardware</h3>
                                     <p>
-                                        We attempted to correct the scrolling both in hardware, by using off-the-shelf NTSC to VGA converters and in software, by altering the VGA controller in the Verilog.  While the external hardware converters showed promise, they could not synchronize the Chroma and Luma values and could only consistently produce a grayscale image, sacrificing all of the color information needed for accurate obstacle detection. The after devoting over two weeks of the project to attempting to correct the vertical screen scrolling in software, we decided that we would need to implement an AI capable of playing the game even when the screen was constantly scrolling upward. 
+                                        We chose to implement this project using custom hardware rather than instantiating a NIOS II processor on the FPGA and then programming in C. While coding in C is simpler, the VGA controllers typically used with the NIOS are vastly different from the custom controller we used to display the NTSC signal from the NES. Using custom hardware also allows us to access the VGA buffer directly, allowing us to read and write to the screen at the same time. This allows for greater computation parallelization so that we can simultaneously detect multiple types of obstacles at once.  It would not have been possible to read the video input and generate an updated output fast enough if we were using a NIOS II CPU.    
                                     </p>
-                                    <div class="clearfix"></div>
-                        		</div>
-                            <h3>Relevent Standards</h3>
-                            	<div class="indent">
-                                <h4>NTSC and VGA</h4>
-                                    <p>
-                                        The NES produces a non-standard NTSC signal which we convert to VGA. Unfortunately, the VGA controller on the DE2 board is only designed to handle well-formed NTSC signals and cannot properly read the vertical synch pulse. In order to have any visible image on the screen, the vertical synchronization was disabled. This results in the vertical scrolling of the VGA display. he NES produces a non-standard NTSC signal which we convert to VGA. Unfortunately, the VGA controller on the DE2 board is only designed to handle well-formed NTSC signals and cannot properly read the vertical synch pulse. This results in the vertical scrolling of the VGA display.  
-                                    </p>
-                        		</div>
+                                
                         	</div>
                             
-                        <h2>Program/Hardware Design</h2>
+                        <h2 id="controller">Program/Hardware Design</h2>
                         	<div class="indent">
                             <h3>External Hardware</h3>
                             	<p>
-                                	In order to interface with the NES, it is necessary for the Altera DE2 to emulate an NES Controller.  We also found that it was helpful to augment the board with a remote LED display that we could mount next to the monitor.  The LEDs light up various colors to indicate when a pipe,goomba, or brick is causing the Mario AI to jump.  The following schematic shows both of these pieces of additional hardware, and is references in the next two sub-sections:</p>
+                                	In order to interface with the NES, it is necessary for the Altera DE2 to emulate an NES Controller.  We also found that it was helpful to augment the board with a remote LED display that we could mount next to the monitor.  The LEDs light up various colors to indicate when a pipe, goomba, or brick is causing the Mario AI to jump.  The following schematic shows both of these pieces of additional hardware, and is referenced in the next two sub-sections:</p>
                                 <div class="center"><a href="schematic/NintendoNinjaSchematic.png" rel="prettyPhoto"><img src="schematic/NintendoNinjaSchematicThumb.png" alt="System Hardware Schematic"></a></div>
                                 <p class="caption">Schematic of Hardware Components (Click to Enlarge)</p>
-                            	<div class="indent">
-                            	<h4>GPIO to NES controller</h4>
+                            	<div class="indent" >
+                            	<h4 >GPIO to NES controller</h4>
                                 	<div class="photo"><a href="images/controller.jpg" rel="prettyPhoto"><img src="images/controller_thumb.jpg" alt="NES Controller Board"></a><p class="caption">Controller Board (Click to Enlarge)</p></div>
                                 	<p>The NES uses a very simple controller configuration: 8 buttons on the controller connect to a parallel-to-serial shift register, which clocks data into the NES based on a clock signal that is generated by the NES. The original NES used 4021 Shift Registers [<a href="#ref5" class="scroll">3</a>], which are now a bit harder to come by [<a href="#ref3" class="scroll">3</a>].  Instead, we used a 74165N Shift Register, which is nearly identical, except that the polarity of the latch input is inverted [<a href="#ref6" class="scroll">6</a>]. This was easily accomodated for with the addition of a not gate on the latch line from the NES. GPIO pins from the Altera DE2 board emulate "Active Low" button press signals which are sent to the parallel inputs of the shift register. Based on the CLK and LATCH signals from the NES, these button values are periodically shifted into the NES via the controller port.  The 5V power from the controller port is used to power the <em>shift</em> and <em>not</em> logic gates.  3.3V logic-level signals are sent from teh FPGA, but these exceed the threshold for logic high detection on both ICs.</p>
                                 <div class="clearfix"></div>
@@ -183,14 +180,60 @@
                                 	<p>A second circuit board, mounted next to the display monitor, assists in the debugging of code by using color-coded LEDs to indicate what scene triggers are causing the Mario AI to execute a "jump" command.  The yellow LED lights up when Mario is jumping to avoid a pit or a wall.  The red LED lights up when Mario is jumping to avoid an enemy.  The green LED lights up to indicate that Mario is jumping to clear a pipe.</p>
                                 </div>
                         	<div class="clearfix"></div>
+                            <h3>Sprite Kernel Creation (Excel Macros)</h3>
+                            <div class="indent">
+                            	<p>The Kernel matching algorithm that we implemented requires that we have a 11x11 binary bitmap representation of each sprite to matched for the red, green, and blue channels.  To facilitate automatically generating the verilog representations of these bitmaps, an excel spreadsheet was created that allows the user to “draw” a bitmap for each channel of a sprite.  Once this has been drawn, excel equations are used to generate the corresponding verilog code, which can then be copy-pasted into the verilog program where appropriate. This spreadsheet is included withing the <a href="https://github.com/jpwright/fpganes/tree/master/sprite_threshold_generator" title="Sprite Threshold Generator" target="_blank">GitHub Repo</a> where we are hosting the code for this project.</p>
+                            </div>
                         	<h3>Verilog Breakdown</h3>
                             	<div class="indent">
-                       			<h4>NTSC Decoding</h4>
-                                <h4>VGA Output</h4>
+                       			<h4>Configuration Settings</h4>
+                                <p>
+                                There are a huge number of configuration options available to tweak the performance of the AI we developed.  To make it easier to adjust the system to the user’s desired performance, we broke out the most important configuration settings as parameters in one section of the top-level design file.  Some of the options include:
+<ul>
+<li>The X pixel ranges in which pipes, goombas, and bricks, and walls will be detected</li>
+<li>The timing for both short and long jumps</li>
+<li>The error thresholds for detecting goombas, pipes, bricks, and walls</li>
+</ul>
+                                </p>
+                                <h4>NTSC Decoding and VGA Conversion</h4>
+                                <p>
+                                A series of modules, adapted from the the cam_to_vga project [REF], were used to facilitate reading the NTSC signal from the NES, and outputing our modified frames over VGA..  These modules perform the following conversion steps, in order:
+<ol>
+<li>Configure the TV decoder IC</li>
+<li>Detect the stability of the TV signal</li>
+<li>Adjust the timing delay for the video sync</li>
+<li>Decode the data into Chroma/Luma Data</li>
+<li>Sample the input to 640x480 resolution</li>
+<li>Save the present pixel values into a SDRAM frame buffer</li>
+<li>Convert to 10 bit RGB color</li>
+<li>Perform all our analysis</li>
+<li>Sync with the VGA controller and load updated pixel color values.</li>
+</ol>
+                                </p>
                                 <h4>Kernel Matching</h4>
+                                <p>
+                                First, an 11x11 kernel was devised for finding unique features of each obstacle in the Red, Green, and Blue channels using the excel spreadsheet mentioned earlier. The figure below shows a sample of the binary bitmaps that were to used to identify the pipe corners, as an example.
+								<div class="center"><a href="images/kernels.png" rel="prettyPhoto"><img src="images/kernels_thumb.png" alt="Pipe Matching Kernels"></a></div>
+                                <p class="caption">Pipe Matching Kernels (Click to Enlarge)</p>
+</p><p>
+To generate the circular buffers necessary to match regions of the screen with the different kernels, we adapted code graciously provided to us by the Cartoonifier group. The approach for an NxN buffer is to store the previous N lines in a circular buffer and to output the NxN grid of bits representing the square of pixels closest to the most recent one shifted in. We wrote a MATLAB script to generate a circular buffer of arbitrary size for the binary, thresholded channels we utilize, and settled on N=11.
+                                </p>
                                 <h4>Thresholding</h4>
+                                <p>
+                                The RGB channels of the VGA are then thresholded using a value that was manually determined to produces a clear black and white image used which contains enough detail to uniquely locate the obstacles. The obstacles are then located by comparing their kernels, which were determined using the same threshold, to the  thresholded RGB channels.
+                                </p>
                                 <h4>Screen Updates</h4>
+                                <div class="indent">
+                                	<h5>Display Options</h5>
+                                    <p>Using the switches on the DE2 board, we allow configurable display of the thresholded RGB channels separately or combined. We also allow the user to enable or disable display the results of the AI’s detection methods, redrawing the pixels near enemies as red, pipes as green, and bricks as yellow, corresponding to the colors of the debugging LED display.</p>
+                                    <h5>Auto Chroma/Luma Correction</h5>
+                                    <p>
+                                    One problem encountered was that if we rewrote large chunks of the VGA buffer or modified thresholds/display settings during normal operation, the decoded <a href="http://en.wikipedia.org/wiki/Luma_(video)" title="Chroma and Luma Explained on Wikipedia" target="_blank">chroma and luma</a> channels of the NTSC signal would flip. This problem also depended a bit on the way the design was synthesized, since it resulted from the system failing to redraw the screen in time to properly decode the VBLANK lines of the NTSC signal. To correct for this, since we knew the screen should always look a certain way (blue sky on the sides of the screen), we created a method of automatically correcting a chroma/luma flip if the sky suddenly turned pinkish-red (lovingly denoted as the “salmon screen of death”). This works well given a reasonable amount of timing mismatch. In very bad timing situations, the system will constantly flip chroma and luma (creating a horrible visual effect, but at least giving the AI enough information on alternating frames to work).
+                                    </p>
+                                </div>
                                 <h4>NES Control Ouput</h4>
+                                <p>Emulating the NES Controller is a fairly straight-forward operation.  Eight I/O pins on the DE2 Board were designated at the button that you would normally find on an NES Controller: A, B, Up, Down, Left, Right, Start, and Select.  To "press" any of these buttons, the DE2 pulls that output line low, then back high again.  Importantly, the durration of this simulated button press can affect how Mario behaves.  In particular, the amount of time that the A button is held down for, controls how high Mario jumps.  We took advantage of this to enable Mario to execute both short and long jumps depending on the obstacles that were ahead of him. These button-press commands feed into an ordinary parallel-to-serial shift register, which was explained in the <a href="
+								#controller" class="scroll">hardware description</a> above.</p>
                                 </div>
                             </div>
                 
@@ -203,52 +246,17 @@
 					<div class="row">
 						<h1>Results</h1>
 						<hr />
-						<div class="six columns">
                         	<h2>Execution</h2>
-                        		<p>We were able to implement a simple AI to play World 1-1 of Super Mario Bros. for the NES. The AI is able to play in real time by plugging in a custom controller-to-GPIO breakout into one of the controller ports of the NES. The AI can successfully complete the level approximately QQ% of the time.</p>
-								<p>Since the NES does not have a standard NTSC signal, the VGA controller produces a constantly scrolling image. The FPGA is still able to play the game by only looking at the horizontal position of the obstacles and enemies detected and by calculating some of the vertical information by searching for the location of the empty black bar of space that appears between frames.  This also means that the FPGA only knows the image information that it is capable of displaying. When enemies or obstacles are not being displayed on the VGA, there are not visible to the AI, making the game challenging to play.</p>
-								<p>The general strategy of the AI is to jump over pipes, stomp on goombas, and jump over gaps in the ground.  The FPGA concurrently searches for the goombas, pipes and gaps by comparing a kernel of a unique area on these sprites to an 11x640 buffer that is constantly being updated as a new pixel is written to the VGA display. When the number of matching pixels exceeds a certain threshold and it is in the portion of the screen to the right of center, that obstacle is determined to be present. Once a frame, all of these signals are polled and Mario will jump to avoid the obstacle, remaining in the air for a length of time related to which obstacle was sensed. Some obstacles have priority over others to avoid conflicts that could cause Mario to jump into an enemy or trap.</p>
-								<p>Where the hardware detects matches between the obstacle kernels and the screen, the matching pixels are displayed on the screen: green pixels appear where pipes are sensed, yellow for the edges of bricks and red for the Goomba and Koopa enemies. Due to the 4 frame delay introduced to give the FPGA enough time to compute these matches, these appear as streaks on the screen. This coloring can be toggled off using the switches on the FPGA. Since there is no vertical synchronization and we are writing to the screen multiple times per frame, this will occasionally cause the NTSC decoder to lose Chroma/Luma synchronization, causing the colors on the screen to invert. This can be corrected by manually resetting the decoder by pressing KEY[0] or toggling SW[].</p>
-
+                        		<p>We were able to implement a simple AI to play World 1-1 of Super Mario Bros. for the NES. The AI is able to play in real time by plugging in a custom controller-to-GPIO breakout into one of the controller ports of the NES. The AI can successfully complete the level most of the time.</p>
 							<h2>Accuracy</h2>
-								<p>With this system, it is also possible to use the AI as a second player in the 2 player version of the game, but the AI has only been trained on the enemies and obstacles of World 1-1.</p>
+								<p>Given some randomness due to the video problems described above and a little bit of non-deterministic behavior from the game (some enemies don’t always appear in the same positions), this is difficult to measure. However, the AI performs admirably, and can generally complete the first level successfully, even when the game does not behave exactly as we might predict. Failures generally occur when the scrolling happens to be timed in such a way that an obstacle (like a goomba) is occluded from view at an inopportune time.  It may be possible to deal with something like this by  periodically pausing to ensure all enemies are seen, but this would likely cause other complications.</p>
 
 							<h2>Usability</h2>
 								<p>
-								This is neat.
+								Since the NES does not have a standard NTSC signal, the VGA controller produces a constantly scrolling image. The FPGA is still able to play the game by only looking at the horizontal position of the obstacles and enemies detected and by calculating some of the vertical information by searching for the location of the empty black bar of space that appears between frames. This also means that the FPGA only knows the image information that it is capable of displaying. When enemies or obstacles are not being displayed on the VGA, there are not visible to the AI, making the game challenging to play. 
 								</p>
-						</div>
-						<div class="six columns">
-							<ul class="block-grid three-up">
-								<li>
-                                	<a href="images/space/6.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/6.jpg" alt="Alt Description" /></a>
-								</li>
-								<li>
-									<a href="images/space/2.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/2.jpg" alt="Alt Description"></a>
-								</li>
-								<li>
-									<a href="images/space/1.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/1.jpg" alt="Alt Description"></a>
-								</li>
-								<li>
-									<a href="images/space/5.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/5.jpg" alt="Alt Description"></a>
-								</li>
-								<li>
-									<a href="images/space/3.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/3.jpg" alt="Alt Description"></a>
-								</li>
-								<li>
-									<a href="images/space/4.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/4.jpg" alt="Alt Description"></a>
-								</li>
-								<li>
-									<a href="images/space/7.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/7.jpg" alt="Alt Description"></a>
-								</li>
-								<li>
-									<a href="images/space/8.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/8.jpg" alt="Alt Description"></a>
-								</li>
-								<li>
-									<a href="images/space/9.jpg" rel="prettyPhoto[space]" title="An Image Caption!"><img src="images/space/thumbs/9.jpg" alt="Alt Description"></a>
-								</li>
-							</ul>
-						</div>
+
+						
 					</div>
 				</div>
 
@@ -259,9 +267,11 @@
 							<h1>Conclusions</h1>
 							<hr />
 							<h3>Analysis</h3>
-                            <p>stuff.</p>
+                            <p>Despite the setbacks posed by the NTSC decoder, we were pleased that we were able to implement an AI that is capable of playing World 1-1 of Super Mario Bros. While we were unable to correct the scrolling of the VGA display, the AI implemented met our expectations and is not only able to completely World 1-1 of Super Mario Bros. but is able to do without a constant reference for the ground. </p><p>
+There are several changes we would make if we were to redo this project. We would have used an emulator or SNES, since both of these would produce a standard NTSC signal. This would have made the AI development much easier as we spent a great deal of time trying to correct the video signal. We would also consider directly reading the ROM of the game instead of trying to use computer vision – this would have made it much simpler to detect where the enemies were located, allow us to easily know the score, etc. With more time, we also would also consider implementing a neural net or other learning algorithm instead of hardcoding in specific actions, allowing the FPGA to learn how to play subsequent levels in the game.</p>
 							<h3>Intellectual Property Considerations</h3>
-                            <p>more stuff.</p>
+                            <p>For this project we referenced the Terasic DE2_TV example project and the Real-Time Cartoonifier, both of which are publicly accessible projects. For the NES controller breakout we referenced the NES controller schematic. 
+The Super Mario Bros. game is the property of Nintendo, but there are no rules related to playing it known to us. </p>
 						</div>
 					</div>
 				</div>
@@ -276,7 +286,26 @@
                             <h2>Appendix B: Schematics</h2>
                             <p> </p>
                             <h2>Appendix C: Task Breakdown</h2>
-                            <p> </p>
+                            <p>Tasks were broken down amongst team members as follows:<p>
+							Jeremy Blum
+							<ul>
+								<li>Development of kernel-generation program, and identification of kernel patterns</li>
+								<li>Development of Matlab Scripts for automatically generating 11x11 Kernel Verilog Code</li>
+								<li>Fine Tuning of Thresholds an on-screen Color-Updating for Object Identification</li>
+								<li>Building & Debugging Hardware Components (Controller and LEDs)</li>
+								<li>Design of the Website</li>
+								<li>Creation of the Demo Video</li>
+							</ul>
+							Sima Mitra
+							<ul>
+								<li>ADD MORE</li>
+							</ul>
+							Jason Wright
+							<ul>
+								<li>Fine Tuning of Thresholds an on-screen Color-Updating for Object Identification</li>
+								<li>Building & Debugging Hardware Components (Controller)</li>
+								<li>ADD MORE</li>
+							</ul>
                             <h2>Refrences</h2>
                                 <ol>
                                     <li id="ref1">
@@ -316,31 +345,15 @@
 					</div>
 					<div class="two columns">
 						<h5>Team</h5>
-						<ul>
-							<li>
-								<a href="http://www.jeremyblum.com">Jeremy Blum</a>
-							</li>
-							<li>
-								<a href="http://www.simamitra.com">Sima Mitra</a>
-							</li>
-							<li>
-								<a href="http://www.jpwright.net">Jason Wright</a>
-							</li>
-						</ul>
+						<a href="http://www.jeremyblum.com">Jeremy Blum</a><br />
+						<a href="http://www.simamitra.com">Sima Mitra</a><br />
+						<a href="http://www.jpwright.net">Jason Wright</a>
 					</div>
 					<div class="three columns">
 						<h5>Links</h5>
-						<ul>
-							<li>
-								<a href="http://people.ece.cornell.edu/land/courses/ece5760/">ECE5760 Course Website</a>
-							</li>
-							<li>
-								<a href="http://www.altera.com/education/univ/materials/boards/de2/unv-de2-board.html">Altera DE2 Homepage</a>
-							</li>
-							<li>
-								<a href="https://instruct1.cit.cornell.edu/courses/ece576/FinalProjects/f2010/kaf42_jay29_teg25/teg25_jay29_kaf42/index.html">Cartoonifier Project</a>
-							</li>
-						</ul>
+						<a href="http://people.ece.cornell.edu/land/courses/ece5760/">ECE5760 Course Website</a><br />
+						<a href="http://www.altera.com/education/univ/materials/boards/de2/unv-de2-board.html">Altera DE2 Homepage</a><br />
+						<a href="https://instruct1.cit.cornell.edu/courses/ece576/FinalProjects/f2010/kaf42_jay29_teg25/teg25_jay29_kaf42/index.html">Cartoonifier Project</a><br />
 					</div>
 					<div class="three columns hide-for-small">
 						<a href="http://www.ece.cornell.edu/" alt="Cornell University, School of Electrical and Computer Engineering" title="Cornell University, School of Electrical and Computer Engineering"><img src="images/cu_logo.png"></a>

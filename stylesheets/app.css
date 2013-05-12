@@ -131,7 +131,7 @@
 	 padding-right: 20px;
  }
  
- ol {
+ ol , ul{
 	margin-left: 50px; 
  }
  
