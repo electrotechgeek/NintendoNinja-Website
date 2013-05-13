@@ -204,7 +204,7 @@
                                 </p>
                                 <h4>NTSC Decoding and VGA Conversion</h4>
                                 <p>
-                                A series of modules, adapted from the the cam_to_vga project [<a href="#ref5" class="scroll">2</a>], were used to facilitate reading the NTSC signal from the NES, and outputing our modified frames over VGA..  These modules perform the following conversion steps, in order:
+                                A series of modules, adapted from the the cam_to_vga project [<a href="#ref5" class="scroll">2</a>], were used to facilitate reading the NTSC signal from the NES, and outputting our modified frames over VGA. These modules perform the following conversion steps, in order:
 <ol>
 <li>Configure the TV decoder IC</li>
 <li>Detect the stability of the TV signal</li>
@@ -239,7 +239,7 @@ To generate the circular buffers necessary to match regions of the screen with t
                                     </p>
                                 </div>
                                 <h4>NES Control Output</h4>
-                                <p>Emulating the NES Controller is a fairly straight-forward operation.  Eight I/O pins on the DE2 Board were designated at the button that you would normally find on an NES Controller: A, B, Up, Down, Left, Right, Start, and Select.  To "press" any of these buttons, the DE2 pulls that output line low, then back high again.  Importantly, the durration of this simulated button press can affect how Mario behaves.  In particular, the amount of time that the A button is held down for, controls how high Mario jumps.  We took advantage of this to enable Mario to execute both short and long jumps depending on the obstacles that were ahead of him. These button-press commands feed into an ordinary parallel-to-serial shift register, which was explained in the <a href="
+                                <p>Emulating the NES Controller is a fairly straight-forward operation.  Eight I/O pins on the DE2 Board were designated at the button that you would normally find on an NES Controller: A, B, Up, Down, Left, Right, Start, and Select.  To "press" any of these buttons, the DE2 pulls that output line low, then back high again.  Importantly, the duration of this simulated button press can affect how Mario behaves. In particular, the amount of time that the A button is held down controls how high Mario jumps. We took advantage of this to enable Mario to execute both short and long jumps depending on the obstacles that were ahead of him. These button-press commands feed into an ordinary parallel-to-serial shift register, which was explained in the <a href="
 								#controller" class="scroll">hardware description</a> above.</p>
                                 </div>
                             </div>
