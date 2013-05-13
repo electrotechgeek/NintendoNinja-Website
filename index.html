@@ -164,10 +164,10 @@
                         	</div>
                             
                         <h2 id="controller">Program/Hardware Design</h2>
-							<h3>Main System Schematic</h3>
+							<h3>Main System Flowchart</h3>
                             <div class="indent">
-                            	<div class="center"><img src="images/schematic.png" alt="Main System Schematic"></div>
-                                <p class="caption">Main System Schematic</p>
+                            	<div class="center"><a href="images/flowchart.png" rel="prettyPhoto"><img src="images/flowchart_thumb.png" alt="Main System Flowchart"></a></div>
+                                <p class="caption">Main System Schematic (Click to Enlarge)</p>
 								<p>Our design uses the DE2_TV project as a starting point to decode the input video signal from the NES. It then uses rolling buffers to store an 11x11 grid containing a thresholded version of each channel, which can then be used to match with predefined kernels to detect objects on the screen. The results of the detection are fed into our main AI logic, which includes an incrementing state machine to filter noise from each detector, and to make decisions about jumping based on detected objects and their relative positions on the screen.</p>
 							</div>
 							<div class="clearfix"></div>
@@ -189,7 +189,7 @@
                         	<div class="clearfix"></div>
                             <h3>Sprite Kernel Creation (Excel Macros)</h3>
                             <div class="indent">
-                            	<p>The Kernel matching algorithm that we implemented requires that we have a 11x11 binary bitmap representation of each sprite to matched for the red, green, and blue channels.  To facilitate automatically generating the verilog representations of these bitmaps, an excel spreadsheet was created that allows the user to “draw” a bitmap for each channel of a sprite.  Once this has been drawn, excel equations are used to generate the corresponding verilog code, which can then be copy-pasted into the verilog program where appropriate. This spreadsheet is included withing the <a href="https://github.com/jpwright/fpganes/tree/master/sprite_threshold_generator" title="Sprite Threshold Generator" target="_blank">GitHub Repo</a> where we are hosting the code for this project.</p>
+                            	<p>The Kernel matching algorithm that we implemented requires that we have a 11x11 binary bitmap representation of each sprite to matched for the red, green, and blue channels.  To facilitate automatically generating the verilog representations of these bitmaps, an excel spreadsheet was created that allows the user to “draw” a bitmap for each channel of a sprite.  Once this has been drawn, excel equations are used to generate the corresponding verilog code, which can then be copy-pasted into the verilog program where appropriate. This spreadsheet is included within the <a href="https://github.com/jpwright/fpganes/tree/master/sprite_threshold_generator" title="Sprite Threshold Generator" target="_blank">GitHub Repo</a> where we are hosting the code for this project.</p>
                             </div>
                         	<h3>Verilog Breakdown</h3>
                             	<div class="indent">
@@ -289,7 +289,7 @@ The Super Mario Bros. game is the property of Nintendo, but there are no rules r
 						<h1>Appendices and References</h1>
 						<hr />
                             <h2>Commented Code</h2>
-                            <p> All of our code can be found <a href="https://github.com/jpwright/fpganes"> here</a>, hosted on GitHub.  </p>
+                            <p> All of our code can be found <a href="https://github.com/jpwright/fpganes" target="_blank"> here</a>, hosted on GitHub.  </p>
                             <h2>Task Breakdown</h2>
                             <p>Tasks were broken down amongst team members as follows:<p>
 							Jeremy Blum
@@ -297,7 +297,7 @@ The Super Mario Bros. game is the property of Nintendo, but there are no rules r
 								<li>Development of kernel-generation program, and identification of kernel patterns</li>
 								<li>Development of MATLAB scripts for automatically generating 11x11 buffer modules</li>
 								<li>Building external hardware</li>
-								<li>Website design</li>
+								<li>Website design/content</li>
 								<li>Creation of the demo video</li>
 							</ul>
 							Sima Mitra
