@@ -164,6 +164,13 @@
                         	</div>
                             
                         <h2 id="controller">Program/Hardware Design</h2>
+							<h3>Main System Schematic</h3>
+                            <div class="indent">
+                            	<div class="center"><img src="images/schematic.png" alt="Main System Schematic"></div>
+                                <p class="caption">Main System Schematic</p>
+								<p>Our design uses the DE2_TV project as a starting point to decode the input video signal from the NES. It then uses rolling buffers to store an 11x11 grid containing a thresholded version of each channel, which can then be used to match with predefined kernels to detect objects on the screen. The results of the detection are fed into our main AI logic, which includes an incrementing state machine to filter noise from each detector, and to make decisions about jumping based on detected objects and their relative positions on the screen.</p>
+							</div>
+							<div class="clearfix"></div>
                         	<div class="indent">
                             <h3>External Hardware</h3>
                             	<p>
@@ -281,35 +288,35 @@ The Super Mario Bros. game is the property of Nintendo, but there are no rules r
 					<div class="row">
 						<h1>Appendices and References</h1>
 						<hr />
-                            <h2>Appendix A: Commented Code</h2>
+                            <h2>Commented Code</h2>
                             <p> All of our code can be found <a href="https://github.com/jpwright/fpganes"> here</a>, hosted on GitHub.  </p>
-                            <h2>Appendix B: Schematics</h2>
-                            <p> </p>
-                            <h2>Appendix C: Task Breakdown</h2>
+                            <h2>Task Breakdown</h2>
                             <p>Tasks were broken down amongst team members as follows:<p>
 							Jeremy Blum
 							<ul>
 								<li>Development of kernel-generation program, and identification of kernel patterns</li>
-								<li>Development of Matlab Scripts for automatically generating 11x11 Kernel Verilog Code</li>
-								<li>Fine Tuning of Thresholds an on-screen Color-Updating for Object Identification</li>
-								<li>Building & Debugging Hardware Components (Controller and LEDs)</li>
-								<li>Design of the Website</li>
-								<li>Creation of the Demo Video</li>
+								<li>Development of MATLAB scripts for automatically generating 11x11 buffer modules</li>
+								<li>Building external hardware</li>
+								<li>Website design</li>
+								<li>Creation of the demo video</li>
 							</ul>
 							Sima Mitra
 							<ul>
-								<li>Debugging the NTSC decorder</li>
+								<li>Debugging the NTSC decoder</li>
                                 <li>Editing the VGA controller to accept NES's NTSC signal</li>
                                 <li>Debugging obstacle detection algorithm</li>
+								<li>Building external hardware</li>
                                 <li>Contributing to the website content</li>
 							</ul>
 							Jason Wright
 							<ul>
-								<li>Fine Tuning of Thresholds an on-screen Color-Updating for Object Identification</li>
-								<li>Building & Debugging Hardware Components (Controller)</li>
+								<li>Hardware and AI design</li>
+								<li>Control interface timing</li>
+								<li>MATLAB scripts for various Verilog generation</li>
+								<li>Building external hardware</li>
 								<li>Contributing to the website content</li>
 							</ul>
-                            <h2>Refrences</h2>
+                            <h2>References</h2>
                                 <ol>
                                     <li id="ref1">
                                         <a href="datasheets/182877477ADV7181B_a.pdf">Datasheet for NTSC decorder used on the DE2 board</a>
